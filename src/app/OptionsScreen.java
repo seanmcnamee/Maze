@@ -99,9 +99,11 @@ public class OptionsScreen extends DisplayScreen {
             if (SwingUtilities.isLeftMouseButton(e)) {
                 enableIfAble(btnNodeFocus, GameValues.SearchType.NodeFocus);
                 enableIfAble(btnRoadFocus, GameValues.SearchType.RoadFocus);
+                enableIfAble(btnAll, GameValues.SearchType.All);
             }   else if (SwingUtilities.isRightMouseButton(e)) {
                 disableIfAble(btnNodeFocus, GameValues.SearchType.NodeFocus);
                 disableIfAble(btnRoadFocus, GameValues.SearchType.RoadFocus);
+                disableIfAble(btnAll, GameValues.SearchType.All);
             }
         }
     }
@@ -137,6 +139,11 @@ public class OptionsScreen extends DisplayScreen {
             btnRoadFocus.setHovering(true);
         }   else if (btnRoadFocus.isHovering() && !btnRoadFocus.contains(e.getPoint())) {
             btnRoadFocus.setHovering(false);
+        //btnAll
+        }   else if (!btnAll.isHovering() && btnAll.contains(e.getPoint())) {
+            btnAll.setHovering(true);
+        }   else if (btnAll.isHovering() && !btnAll.contains(e.getPoint())) {
+            btnAll.setHovering(false);
         }
     }
 
