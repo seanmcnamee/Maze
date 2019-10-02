@@ -77,16 +77,24 @@ public class Button {
         if (b != isHovering) {
             if (b) {
                 //Make image darker
-                RescaleOp op = new RescaleOp(gameValues.DARKEN_VALUE, 0, null);
-                image = op.filter(image, null);
+                darkenImage();
             }   else {
                 //Make image brighter
-                RescaleOp op = new RescaleOp(gameValues.LIGHTEN_VALUE, 0, null);
-                image = op.filter(image, null);
+                lightenImage();
             }
             isHovering = b;
         }
         
+    }
+
+    public void darkenImage() {
+        RescaleOp op = new RescaleOp(gameValues.DARKEN_VALUE, 0, null);
+                image = op.filter(image, null);
+    }
+
+    public void lightenImage() {
+        RescaleOp op = new RescaleOp(gameValues.LIGHTEN_VALUE, 0, null);
+                image = op.filter(image, null);
     }
 
     public boolean isHovering() {

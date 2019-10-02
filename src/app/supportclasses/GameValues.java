@@ -1,6 +1,7 @@
 package app.supportclasses;
 
 import java.awt.Point;
+import java.util.ArrayList;
 /**
  * GameValues for the game
  */
@@ -11,7 +12,7 @@ public class GameValues {
     }
 
     public enum SearchType {
-        RoadFocus, NodeFocus;
+        RoadFocus, NodeFocus, All;
     }
 
     //Overall Application Values
@@ -27,6 +28,7 @@ public class GameValues {
     public final String NAME = "Maze Simulator - Sean McNamee";
     public GameState gameState = GameState.NOTSTARTED;
     public DisplayScreen currentScreen;
+    public ArrayList<SearchType> searchType = new ArrayList<SearchType>();
 
     
     public final String GAME_FONT_FILE = "bin/MainScreenFont.ttf";
