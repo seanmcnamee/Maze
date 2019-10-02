@@ -14,10 +14,10 @@ public class Button {
     /**
      *
      */
-    private BufferedImage image;
+    protected BufferedImage image;
     private boolean isHovering;
     private Point pictureCenterLocation;
-    private GameValues gameValues;
+    protected GameValues gameValues;
 
     /**
      * This point will be the CENTER of the button (so other things don't have to figure it out)

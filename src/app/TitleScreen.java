@@ -9,13 +9,10 @@ import app.supportclasses.BufferedImageLoader;
 import app.supportclasses.Button;
 import app.supportclasses.DisplayScreen;
 import app.supportclasses.GameValues;
-import app.supportclasses.Input;
 import app.supportclasses.SpriteSheet;
 
 import java.awt.event.MouseEvent;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
+
 
 /**
  * MainScreen of the App
@@ -29,7 +26,7 @@ public class TitleScreen extends DisplayScreen {
     private DisplayScreen optionScreen;
     private Font font;
 
-    public TitleScreen(JFrame frame, GameValues gameValues, DisplayScreen game) {
+    public TitleScreen(JFrame frame, GameValues gameValues, DisplayScreen game, Font font) {
         super(frame);
         background = new BufferedImageLoader(gameValues.MAIN_MENU_FILE);
         SpriteSheet buttons = new SpriteSheet(gameValues.MAIN_MENU_BUTTONS);
@@ -40,24 +37,13 @@ public class TitleScreen extends DisplayScreen {
         this.gameValues = gameValues;
         this.game = game;
 
-        font = setFont(gameValues);
+        this.font = font;
 
-        optionScreen = new OptionsScreen(frame, gameValues, this);
+        optionScreen = new OptionsScreen(frame, gameValues, this, font);
     }
 
     
-    private Font setFont(GameValues gameValues) {
-        Font returningFont = null;
-        try {
-            InputStream myStream = new BufferedInputStream(new FileInputStream(gameValues.GAME_FONT_FILE));
-            Font temp = Font.createFont(Font.TRUETYPE_FONT, myStream);
-            returningFont = temp.deriveFont(Font.PLAIN, 50);          
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            System.err.println("Font not loaded.");
-        }
-        return returningFont;
-    }
+    
     
 
     @Override

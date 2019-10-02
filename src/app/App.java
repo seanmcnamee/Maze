@@ -1,11 +1,9 @@
 package app;
 
-
 import app.supportclasses.Input;
 import app.supportclasses.DisplayScreen;
 import app.supportclasses.GameValues;
 import app.supportclasses.GameValues.GameState;
-
 
 //import app.GameValues.GameState;
 
@@ -14,8 +12,13 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.image.BufferStrategy;
 import java.awt.BorderLayout;
+
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 import javax.swing.JFrame;
 
@@ -37,6 +40,7 @@ public class App extends Canvas implements Runnable {
     private JFrame frame;
     private GameValues gameValues;
     private Input gameInputs;
+    private Font font;
 
     //Screen specific variables
     private DisplayScreen game;
@@ -50,11 +54,12 @@ public class App extends Canvas implements Runnable {
         gameValues = new GameValues();
         setupGUI();
         inputSetup();
+        setFont();
         
         //Different Screens setup
 
         game = new Game(frame, gameValues);
-        titleScreen = new TitleScreen(frame, gameValues, game);
+        titleScreen = new TitleScreen(frame, gameValues, game, font);
 
         //Start displaying/updating everything
         gameValues.currentScreen = titleScreen;
@@ -98,6 +103,7 @@ public class App extends Canvas implements Runnable {
         System.out.println("frame size: " + frame.getContentPane().getWidth() + ", " + frame.getContentPane().getHeight());
     }
 
+    
     /**
      * Sets up the input (KeyListeners, MouseListeners, etc)
      */
@@ -109,6 +115,22 @@ public class App extends Canvas implements Runnable {
         addMouseMotionListener(gameInputs);
         addMouseWheelListener(gameInputs);
         frame.addComponentListener(gameInputs);
+    }
+
+    /**
+     * Setup Font for Graphics
+     */
+    private void setFont() {
+        Font returningFont = null;
+        try {
+            InputStream myStream = new BufferedInputStream(new FileInputStream(gameValues.GAME_FONT_FILE));
+            Font temp = Font.createFont(Font.TRUETYPE_FONT, myStream);
+            returningFont = temp.deriveFont(Font.PLAIN, 50);          
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.err.println("Font not loaded.");
+        }
+        font = returningFont;
     }
 
     @Override

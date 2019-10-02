@@ -10,6 +10,10 @@ public class GameValues {
         NOTSTARTED, RUNNING, WON, LOST, QUIT;
     }
 
+    public enum SearchType {
+        RoadFocus, NodeFocus;
+    }
+
     //Overall Application Values
     public double gameScale = 1;
     public final int WIDTH_SCALE_1 = 790;//960;//300;
@@ -43,11 +47,18 @@ public class GameValues {
 
     //OptionsScreen Values
     public final String OPTIONS_MENU_FILE = "bin//emptyMainMenu.png";
+    public final String OPTIONS_MENU_BUTTONS = "bin//OptionsButtons.png";
     public final String BACK_BUTTON = "bin//backArrow.png";
+    public final String OPTIONS_TITLE = "Maze Searches";
+    public final int OPTIONS_BUTTON_SIZE = 370;
     public final double BACK_BUTTON_X = .1;
     public final double BACK_BUTTON_Y = .1;
     public final double OPTIONS_BLACK_BOX_WIDTH = .5;
     public final double OPTIONS_BLACK_BOX_HEIGHT = .8;
+    public final double TITLE_Y = .2;
+    public final double CHOICES_X = .5;
+    public final double CHOICES_START_Y = .4;
+    public final double CHOICES_HEIGHT = .1;
 
     //Game Values
     public final double WALL_LENGTH = .05;
