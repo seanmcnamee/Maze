@@ -13,7 +13,7 @@ import app.supportclasses.Button;
 import app.supportclasses.DisplayScreen;
 import app.supportclasses.GameValues;
 import app.supportclasses.SpriteSheet;
-//import app.supportclasses.StringButton;
+import app.supportclasses.StringButton;
 
 /**
  * OptionsScreen
@@ -22,6 +22,7 @@ public class OptionsScreen extends DisplayScreen {
 
     private final BufferedImageLoader background;
     private Button btnBack, btnNodeFocus, btnRoadFocus;
+    //private StringButton test;
     private GameValues gameValues;
     private DisplayScreen mainMenu;
     private Font font;
@@ -37,7 +38,7 @@ public class OptionsScreen extends DisplayScreen {
         btnRoadFocus =new Button(buttons.shrink(buttons.grabImage(1, 0, 1, 1, gameValues.OPTIONS_BUTTON_SIZE)), (int)(gameValues.CHOICES_X*gameValues.WIDTH_SCALE_1), (int)((gameValues.CHOICES_START_Y+gameValues.CHOICES_HEIGHT)*gameValues.HEIGHT_SCALE_1), gameValues);
 
         //To create any new picture files...
-        //StringButton temp = new StringButton("String here", font, (int)(gameValues.gameScale*gameValues.CHOICES_X), (int)(gameValues.gameScale*gameValues.CHOICES_START_Y), gameValues);
+        //test = new StringButton("String here", font, Color.WHITE, (int)(gameValues.CHOICES_X*gameValues.WIDTH_SCALE_1), (int)((gameValues.CHOICES_START_Y+2*gameValues.CHOICES_HEIGHT)*gameValues.HEIGHT_SCALE_1), gameValues);
 
         this.gameValues = gameValues;
         this.mainMenu = mainMenu;
@@ -53,6 +54,7 @@ public class OptionsScreen extends DisplayScreen {
         btnBack.render(g);
         btnNodeFocus.render(g);
         btnRoadFocus.render(g);
+        //test.render(g);
 
         g.setFont(font);
         g.setColor(Color.white);

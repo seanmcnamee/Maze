@@ -100,4 +100,11 @@ public class SpriteSheet {
         return smallerImage;
     }
 
+    public int getWidth() {
+        return imageLoader.getImage().getWidth();
+    }
+
+    public int getHeight() {
+        return imageLoader.getImage().getHeight();
+    }
 }

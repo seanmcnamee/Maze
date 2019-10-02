@@ -19,12 +19,16 @@ public class StringButton extends Button {
 
     String text;
     Font font;
+    Color color;
 
-    public StringButton(String string, Font font, int x, int y, GameValues gameValues) {
+    public StringButton(String string, Font font, Color color, int x, int y, GameValues gameValues) {
         super(null, x, y, gameValues);
         this.text = string;
         this.font = font;
+        this.color = color;
         saveAsPicture();
+        SpriteSheet thisButtonSS = new SpriteSheet(text+".png");
+        image = thisButtonSS.shrink(thisButtonSS.grabImage(0, 0, 1, 1, Math.min(thisButtonSS.getWidth(), thisButtonSS.getHeight())));
     }
 
     /**
@@ -33,12 +37,9 @@ public class StringButton extends Button {
     private void saveAsPicture()    {
         //create String object to be converted to image
         String sampleText = text;
-
-        //Image file name
-        String fileName = text;
         
         //create a File Object
-        File newFile = new File("./" + fileName + ".png");
+        File newFile = new File("./" + sampleText + ".png");
         
         //create the FontRenderContext object which helps us to measure the text
         FontRenderContext frc = new FontRenderContext(null, true, true);
@@ -47,9 +48,10 @@ public class StringButton extends Button {
         Rectangle2D bounds = font.getStringBounds(sampleText, frc);
         int w = (int) bounds.getWidth();
         int h = (int) bounds.getHeight();
+        int square = Math.max(h, w);
         
         //create a BufferedImage object
-        BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage image = new BufferedImage(square, square, BufferedImage.TYPE_INT_ARGB);
         
         //calling createGraphics() to get the Graphics2D
         Graphics2D g = image.createGraphics();
@@ -57,7 +59,7 @@ public class StringButton extends Button {
         //set color and other parameters
         //g.setColor(Color.WHITE);
         //g.fillRect(0, 0, w, h);
-        g.setColor(Color.WHITE);
+        g.setColor(this.color);
         g.setFont(font);
             
         g.drawString(sampleText, (float) bounds.getX(), (float) -bounds.getY());
