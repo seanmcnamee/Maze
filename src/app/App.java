@@ -173,6 +173,7 @@ public class App extends Canvas implements Runnable {
             long currentMillis = System.currentTimeMillis();
             if (currentMillis - previousMillis >= gameValues.ONE_SEC_IN_MILLIS) {
                 System.out.println("FPS: " + gameValues.framesPerSecond + ", TPS: " + gameValues.ticksPerSeconds);
+                System.out.println("Zoom theoretical origin: " + gameValues.theoreticalOriginX + ", " + gameValues.theoreticalOriginY);
                 previousMillis = currentMillis;
                 gameValues.framesPerSecond = gameValues.ticksPerSeconds = 0;
             }

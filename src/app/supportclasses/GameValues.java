@@ -63,10 +63,13 @@ public class GameValues {
     public final double CHOICES_HEIGHT = .1;
 
     //Game Values
-    public final double WALL_LENGTH = .05;
-    public final double WALL_WIDTH = .01;
-    public final int MAX_WALLS = 100;
+    //public final double WALL_LENGTH = .05;
+    //public final double WALL_WIDTH = .01;
+    public final int MAX_WALLS = 20;
     public double zoomScale = 1;
-    public Point zoomLocation = new Point(0, 0);
-
+    public double zoomChange = .1;
+    public double theoreticalOriginX = 0;
+    public double theoreticalOriginY = 0;
+    public double percentDisplayOriginX = .5;
+    public double percentDisplayOriginY = .5;
 }

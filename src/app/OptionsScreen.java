@@ -15,7 +15,7 @@ import app.supportclasses.Button;
 import app.supportclasses.DisplayScreen;
 import app.supportclasses.GameValues;
 import app.supportclasses.SpriteSheet;
-import app.supportclasses.StringButton;
+//import app.supportclasses.StringButton;
 
 /**
  * OptionsScreen
