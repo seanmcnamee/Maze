@@ -65,7 +65,8 @@ public class GameValues {
     //Game Values
     //public final double WALL_LENGTH = .05;
     //public final double WALL_WIDTH = .01;
-    public final int MAX_WALLS = 20;
+    public final int MAX_WALLS = 25;
+    public final double LOOP_PROBABILITY = .05;
     public int realWalls = 0;
     public double zoomScale = 1;
     public double zoomChange = .1;
@@ -73,4 +74,5 @@ public class GameValues {
     public double theoreticalOriginY = 0;
     public double percentDisplayOriginX = .5;
     public double percentDisplayOriginY = .5;
+
 }

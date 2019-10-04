@@ -98,6 +98,10 @@ public class Node {
         }
     }
 
+    public static boolean areAdjacent(Directions main, Directions check) {
+        return (main != null && check != null && main != check && check != oppositeOf(main));
+    }
+
     public int nodeCount() { 
         return ((north != null)? 1:0) + ((south != null)? 1:0) + ((east != null)? 1:0) + ((west != null)? 1:0);
     }
@@ -108,22 +112,34 @@ public class Node {
         ArrayList<Directions> choices = new ArrayList<Directions>();
         if (getFromDirection(Directions.N) == null) {
             choices.add(Directions.N);
-            //System.out.print("Adding N - ");
         }
         if (getFromDirection(Directions.S) == null) {
             choices.add(Directions.S);
-            //System.out.print("Adding S - ");
         }
         if (getFromDirection(Directions.E) == null) {
             choices.add(Directions.E);
-            //System.out.print("Adding E - ");
         }
         if (getFromDirection(Directions.W) == null) {
             choices.add(Directions.W);
-            //System.out.print("Adding W - ");
         }
-        //System.out.println();
         return choices;
+    }
+
+    public ArrayList<Directions> getConnections() {
+        ArrayList<Directions> connections = new ArrayList<Directions>();
+        if (getFromDirection(Directions.N) != null) {
+            connections.add(Directions.N);
+        }
+        if (getFromDirection(Directions.S) != null) {
+            connections.add(Directions.S);
+        }
+        if (getFromDirection(Directions.E) != null) {
+            connections.add(Directions.E);
+        }
+        if (getFromDirection(Directions.W) != null) {
+            connections.add(Directions.W);
+        }
+        return connections;
     }
 
     public Node getNodeTowards(Directions direction) {

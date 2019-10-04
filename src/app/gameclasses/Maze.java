@@ -54,29 +54,33 @@ public class Maze {
 
         while (path.size() > 0) {
             //System.out.print("Path is size: " + path.size());
-            ArrayList<Node.Directions> directions = path.peek().getChoices();
+            Node current = path.peek();
+            ArrayList<Node.Directions> directions = current.getChoices();
             boolean found = false;
 
             while (!found && directions.size() > 0) {
                 Node.Directions chosenDirection = directions.get((int)(Math.random()*directions.size()));
-                Node possibleNext = path.peek().getNodeTowards(chosenDirection);
+                Node possibleNext = current.getNodeTowards(chosenDirection);
 
                 double radius = (size)/2;
                 //If the possible Node isn't out of bounds
-                if (Math.abs(possibleNext.getX()+rndCenterX) <= (radius) && Math.abs(possibleNext.getY()+rndCenterY) <= (radius)) {
+                if (Math.abs(possibleNext.getX()+rndCenterX) <= (radius) && Math.abs(possibleNext.getY()+rndCenterY) <= (radius) && possibleNext.getX()+rndCenterX < radius && possibleNext.getY()+rndCenterY < radius) {
                     //If its not forming a loop
                     if (nodeWithin(nodes, possibleNext) == null) {
-                        path.peek().addInDirection(possibleNext, chosenDirection);
+                        current.addInDirection(possibleNext, chosenDirection);
                         nodes.add(possibleNext);
                         path.push(possibleNext);
                         found = true;
                     //Certain percent chance of forming a loop (which shouldn't be re explored)
-                    }   else if (Math.random() < .01) {
-                        System.out.println("Creating a loop!");
+                    }   else if (Math.random() < gameValues.LOOP_PROBABILITY) {
+                        //Make sure that this loop with not be a false finish
                         Node loopNode = nodeWithin(nodes, possibleNext);
-                        path.peek().addInDirection(loopNode, chosenDirection);
-                        loopNode.addInDirection(path.peek(), Node.oppositeOf(chosenDirection));
-                        //Purposely don't say you're found yet so that more paths from this same node can be found
+                        if (isSafeLoop(current, loopNode, chosenDirection)) {
+                            System.out.println("Creating a loop!");
+                            current.addInDirection(loopNode, chosenDirection);
+                            loopNode.addInDirection(current, Node.oppositeOf(chosenDirection));
+                            //Purposely don't say you're found yet so that more paths from this same node can be found
+                        }
                     }
                     //System.out.println("\tNext Node is located at: " + possibleNext.getX() + ", " + possibleNext.getY());
                 }
@@ -124,6 +128,28 @@ public class Maze {
 
         n3.addInDirection(n2, Node.Directions.S);
         n3.addInDirection(n0, Node.Directions.W);
+    }
+
+    private boolean isSafeLoop(Node current, Node possible, Node.Directions chosenDirection) {
+        //System.out.println("\nChecking for a Bad Loop from " + current.getX() + ", " + current.getY() + " " + chosenDirection.toString() + " to " + possible.getX() + ", " + possible.getY());
+        ArrayList<Node.Directions> connections = current.getConnections();
+        for (Node.Directions direction : connections) {
+            //System.out.println("Connection " + direction.toString());
+            if (Node.areAdjacent(chosenDirection, direction)) {
+                //System.out.println("They're adjacent!");
+                if (current.getFromDirection(direction).getFromDirection(chosenDirection) == possible.getFromDirection(direction)) {
+                    //System.out.println("Found a bad loop!");
+                    return false;
+                }
+            }
+        }
+
+        //Make sure that the first loop is not being entered...
+        if ((possible.getX() == 0 || possible.getX() == 1) && (possible.getY() == 0 || possible.getY() == 1)) {
+            return false;
+        }
+
+        return true;
     }
 
     private void directNodesToWalls(ArrayList<Node> nodes) {
