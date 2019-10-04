@@ -66,6 +66,7 @@ public class GameValues {
     //public final double WALL_LENGTH = .05;
     //public final double WALL_WIDTH = .01;
     public final int MAX_WALLS = 20;
+    public final int WIDTHS_PER_LENGTH = 15;
     public final double LOOP_PROBABILITY = .05;
     public final double INITIAL_PERCENT__DISPLAY_ORIGIN_X = .5;
     public final double INITIAL_PERCENT__DISPLAY_ORIGIN_Y = .5;
