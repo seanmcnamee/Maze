@@ -58,7 +58,7 @@ public class App extends Canvas implements Runnable {
         
         //Different Screens setup
 
-        game = new Game(frame, gameValues);
+        game = new Game(frame, gameValues, this);
         titleScreen = new TitleScreen(frame, gameValues, game, font);
 
         //Start displaying/updating everything
@@ -178,6 +178,7 @@ public class App extends Canvas implements Runnable {
                 gameValues.framesPerSecond = gameValues.ticksPerSeconds = 0;
             }
         }
+        System.out.println("Exited Game Loop!");
     }
 
     /**

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class GameValues {
 
     public enum GameState {
-        NOTSTARTED, RUNNING, WON, LOST, QUIT;
+        NOTSTARTED, RUNNING, WON, LOST, QUIT, PAUSED;
     }
 
     public enum SearchType {
@@ -66,6 +66,7 @@ public class GameValues {
     //public final double WALL_LENGTH = .05;
     //public final double WALL_WIDTH = .01;
     public final int MAX_WALLS = 20;
+    public int realWalls = 0;
     public double zoomScale = 1;
     public double zoomChange = .1;
     public double theoreticalOriginX = 0;

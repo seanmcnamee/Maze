@@ -44,6 +44,6 @@ public abstract class DisplayScreen {
     }
 
     public void mouseMoved(MouseEvent e) {
-        System.out.println("default event");
+        //System.out.println("default event");
     }
 }

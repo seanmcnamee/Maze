@@ -1,6 +1,5 @@
 package app.gameclasses;
 
-import java.awt.geom.Point2D.Double;
 import java.awt.Color;
 
 import app.supportclasses.GameValues;
@@ -11,7 +10,6 @@ import java.awt.Graphics;
  */
 public class Wall {
     private int x1Pos, y1Pos, x2Pos, y2Pos;
-    private boolean isNorthSouth;
     private GameValues gameValues;
 
     /**
@@ -26,10 +24,10 @@ public class Wall {
         this.gameValues = gameValues;
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics g, Color c) {
         double singleLength = gameValues.HEIGHT_SCALE_1*gameValues.gameScale*gameValues.zoomScale/gameValues.MAX_WALLS;
         double singleWidth = singleLength*.25;
-        int lengthUnits;
+        double lengthUnits;
         double xSize;
         double ySize;
         //Figures out how the wall is facing
@@ -47,21 +45,25 @@ public class Wall {
             ySize = singleLength*lengthUnits+singleWidth;
         }
 
-        g.setColor(Color.red);
+        g.setColor(c);
 
         //The center of the window is the default origin
         double pixelOriginX = gameValues.WIDTH_SCALE_1*gameValues.gameScale*gameValues.percentDisplayOriginX;
         double pixelOriginY = gameValues.HEIGHT_SCALE_1*gameValues.gameScale*gameValues.percentDisplayOriginY;
 
         //A position is however far from the pixel origin (minus a small change in pixels so things match up)
-        double xStart = pixelOriginX + (x1Pos-gameValues.theoreticalOriginX)*singleLength - singleWidth*.5;
-        double yStart = pixelOriginY + (y1Pos-gameValues.theoreticalOriginY)*singleLength - singleWidth*.5;
+        double xStart = pixelOriginX + (x1Pos+((c == Color.BLUE)? .5:0)-gameValues.theoreticalOriginX)*singleLength - singleWidth*.5;
+        double yStart = pixelOriginY + (y1Pos+((c == Color.BLUE)? .5:0)-gameValues.theoreticalOriginY)*singleLength - singleWidth*.5;
 
 
         //System.out.println("At " + xStart + ", " + yStart);
         //System.out.println("\tSize: " + width + ", " + height);
         g.fillRect((int)xStart, (int)yStart, (int)xSize, (int)ySize);
 
+    }
+
+    public boolean equals(Wall other) {
+        return (x1Pos == other.x1Pos) && (x2Pos == other.x2Pos) && (y1Pos == other.y1Pos) && (y2Pos == other.y2Pos);
     }
     
 }
