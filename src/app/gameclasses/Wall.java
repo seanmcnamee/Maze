@@ -26,6 +26,7 @@ public class Wall {
 
     public void render(Graphics g, Color c) {
         double singleLength = gameValues.HEIGHT_SCALE_1*gameValues.gameScale*gameValues.zoomScale/gameValues.MAX_WALLS;
+        //System.out.println("Actual single length percent: " + singleLength/gameValues.HEIGHT_SCALE_1);
         double singleWidth = singleLength*.25;
         double lengthUnits;
         double xSize;

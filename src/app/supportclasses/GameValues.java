@@ -65,14 +65,18 @@ public class GameValues {
     //Game Values
     //public final double WALL_LENGTH = .05;
     //public final double WALL_WIDTH = .01;
-    public final int MAX_WALLS = 25;
+    public final int MAX_WALLS = 20;
     public final double LOOP_PROBABILITY = .05;
+    public final double INITIAL_PERCENT__DISPLAY_ORIGIN_X = .5;
+    public final double INITIAL_PERCENT__DISPLAY_ORIGIN_Y = .5;
     public int realWalls = 0;
     public double zoomScale = 1;
     public double zoomChange = .1;
     public double theoreticalOriginX = 0;
     public double theoreticalOriginY = 0;
-    public double percentDisplayOriginX = .5;
-    public double percentDisplayOriginY = .5;
+    public double percentDisplayOriginX = INITIAL_PERCENT__DISPLAY_ORIGIN_X;
+    public double percentDisplayOriginY = INITIAL_PERCENT__DISPLAY_ORIGIN_Y;
+    public double oldMouseX = -1;
+    public double oldMouseY = -1;
 
 }

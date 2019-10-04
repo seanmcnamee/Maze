@@ -35,6 +35,18 @@ public abstract class DisplayScreen {
         //System.out.println("Mouse Clicked");
     }
 
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    public void mouseReleased(MouseEvent e) {
+
+    }
+    
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
     public void mouseEntered(MouseEvent e){
 
     }

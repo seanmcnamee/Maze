@@ -18,9 +18,29 @@ public class Maze {
         this.gameValues = gameValues;
     }
 
+
+    public void render(Graphics g) {
+        if (gameValues.realWalls%3 ==0) {
+            for (Wall w : this.pathWalls) {
+                w.render(g, Color.BLUE);
+            }
+        }   else if (gameValues.realWalls%3 ==1) {
+            for (Wall w : realWalls) {
+                w.render(g, Color.RED);
+            }
+        }   else {
+            for (Wall w : this.pathWalls) {
+                w.render(g, Color.BLUE);
+            }
+            for (Wall w : realWalls) {
+                w.render(g, Color.RED);
+            }
+        }
+    }
+
+
     /**
      * Creates a 'size'x'size' maze
-     * TODO add percent change of creating cycle
      */
     public void randomWalkMaze(int size) {
         System.out.println("Starting random walk");
@@ -43,10 +63,29 @@ public class Maze {
         nodes.add(n2);
         nodes.add(n3);
 
+        //Pick a single random path from the center
         Node rndStart = nodes.get((int)(Math.random()*nodes.size()));
+
+        //Place the center a random spot within 'movement' from the very center
         final int movement = 6;
         int rndCenterX = (int)((Math.random()*movement)-movement/2);
         int rndCenterY = (int)((Math.random()*movement)-movement/2);
+        System.out.println("Random center: " + rndCenterX + ", " + rndCenterY);
+
+        //Use these centers to make sure the displayed map is always centered
+        centerDispalyInScreen(rndCenterX, rndCenterY);
+
+        //Pick a random corner for the start
+        int minX = -(size-1)/2 + rndCenterX;
+        int maxX = (size)/2 + rndCenterX;
+        int minY = -(size-1)/2 + rndCenterY;
+        int maxY = (size)/2 + rndCenterY;
+
+        int rndXCorner = (Math.random() <.5)? minX: maxX;
+        int rndYCorner = (Math.random() <.5)? minY: maxY;
+        Node corner = new Node(rndXCorner, rndYCorner);
+
+        nodes.add(corner);
 
         //Stack of nodes that will branch to find paths (starting at (1, 1)) (because of how things are centered)
         Stack<Node> path = new Stack<Node>();
@@ -62,9 +101,8 @@ public class Maze {
                 Node.Directions chosenDirection = directions.get((int)(Math.random()*directions.size()));
                 Node possibleNext = current.getNodeTowards(chosenDirection);
 
-                double radius = (size)/2;
                 //If the possible Node isn't out of bounds
-                if (Math.abs(possibleNext.getX()+rndCenterX) <= (radius) && Math.abs(possibleNext.getY()+rndCenterY) <= (radius) && possibleNext.getX()+rndCenterX < radius && possibleNext.getY()+rndCenterY < radius) {
+                if (possibleNext.getX() >= minX && possibleNext.getY() >=  minY && possibleNext.getX() <= maxX && possibleNext.getY() <= maxY) {
                     //If its not forming a loop
                     if (nodeWithin(nodes, possibleNext) == null) {
                         current.addInDirection(possibleNext, chosenDirection);
@@ -72,7 +110,7 @@ public class Maze {
                         path.push(possibleNext);
                         found = true;
                     //Certain percent chance of forming a loop (which shouldn't be re explored)
-                    }   else if (Math.random() < gameValues.LOOP_PROBABILITY) {
+                    }   else if (Math.random() < gameValues.LOOP_PROBABILITY && !possibleNext.equals(corner)) {
                         //Make sure that this loop with not be a false finish
                         Node loopNode = nodeWithin(nodes, possibleNext);
                         if (isSafeLoop(current, loopNode, chosenDirection)) {
@@ -93,11 +131,43 @@ public class Maze {
                 path.pop();
             }
         }
-        createWalls(nodes);
-        directNodesToWalls(nodes);
+        //Force the corner to be connected in ONLY one spot
+        boolean startCornerConnected = false;
+        //Node.getDirection((int)Math.signnum(-corner.getX()), (int)Math.signnum(-corner.getY()))
+        //new Node(corner.getX()+(int)Math.signum(-corner.getX()), corner.getY()+(int)Math.signum(-corner.getY()), corner.getY())
+        Node possibleConnect1 = new Node(corner.getX()+(int)Math.signum(-corner.getX()), corner.getY());
+        Node.Directions d1 = Node.getDirection((int)Math.signum(-corner.getX()), 0);
 
+        Node possibleConnect2 = new Node(corner.getX(), corner.getY()+(int)Math.signum(-corner.getY()));
+        Node.Directions d2 = Node.getDirection(0, (int)Math.signum(-corner.getY()));
+        
+        if (isSafeLoop(corner, nodeWithin(nodes, possibleConnect1), d1)){
+            startCornerConnected = true;
+            corner.addInDirection(nodeWithin(nodes, possibleConnect1), d1);
+            nodeWithin(nodes, possibleConnect1).addInDirection(corner, Node.oppositeOf(d1));
+        }
+        if (!startCornerConnected && isSafeLoop(corner, nodeWithin(nodes, possibleConnect2), d2)) {
+            startCornerConnected = true;
+            corner.addInDirection(nodeWithin(nodes, possibleConnect2), d2);
+            nodeWithin(nodes, possibleConnect2).addInDirection(corner, Node.oppositeOf(d2));
+        }
+
+        if (startCornerConnected) {
+            createWalls(nodes);
+            directNodesToWalls(nodes);
+            System.out.println("Start corner... " + Node.oppositeOf(d2) + Node.oppositeOf(d1));
+        }   else {
+            randomWalkMaze(size);
+        }
     }
 
+    private void centerDispalyInScreen(int centerX, int centerY) {
+        double singleLengthPercent = gameValues.zoomScale/gameValues.MAX_WALLS;
+        System.out.println("Believed length percent: " + singleLengthPercent);
+
+        gameValues.percentDisplayOriginX = -centerX*singleLengthPercent+gameValues.INITIAL_PERCENT__DISPLAY_ORIGIN_X;
+        gameValues.percentDisplayOriginY = -centerY*singleLengthPercent+gameValues.INITIAL_PERCENT__DISPLAY_ORIGIN_Y;
+    }
 
     private Node nodeWithin(ArrayList<Node> nodes, Node node) {
         for (Node n : nodes) {
@@ -212,23 +282,4 @@ public class Maze {
         }
     }
 
-    
-    public void render(Graphics g) {
-        if (gameValues.realWalls%3 ==0) {
-            for (Wall w : this.pathWalls) {
-                w.render(g, Color.BLUE);
-            }
-        }   else if (gameValues.realWalls%3 ==1) {
-            for (Wall w : realWalls) {
-                w.render(g, Color.RED);
-            }
-        }   else {
-            for (Wall w : this.pathWalls) {
-                w.render(g, Color.BLUE);
-            }
-            for (Wall w : realWalls) {
-                w.render(g, Color.RED);
-            }
-        }
-    }
 }

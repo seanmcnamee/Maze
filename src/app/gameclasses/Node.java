@@ -98,6 +98,22 @@ public class Node {
         }
     }
 
+    public static Directions getDirection(int x, int y) {
+        if (x == 0) {
+            if (y > 0) {
+                return Directions.S;
+            }   else {
+                return Directions.N;
+            }
+        }   else {
+            if (x > 0) {
+                return Directions.E;
+            }   else {
+                return Directions.W;
+            }
+        }
+    }
+
     public static boolean areAdjacent(Directions main, Directions check) {
         return (main != null && check != null && main != check && check != oppositeOf(main));
     }

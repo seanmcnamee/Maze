@@ -63,9 +63,32 @@ public class Game extends DisplayScreen{
         }
     }
 
-    public void mouseClicked(MouseEvent e) {
+    public void mouseReleased(MouseEvent e) {
         if (SwingUtilities.isRightMouseButton(e)) {
             gameValues.realWalls++;
+        }
+    }
+
+    public void mousePressed(MouseEvent e) {
+        if (SwingUtilities.isLeftMouseButton(e)) {
+            gameValues.oldMouseX = e.getX();
+            gameValues.oldMouseY = e.getY();
+        }
+        
+    }
+
+    public void mouseDragged(MouseEvent e) {
+        if (SwingUtilities.isLeftMouseButton(e)) {
+            double pixelXChange = e.getX()-gameValues.oldMouseX;
+            double pixelYChange = e.getY()-gameValues.oldMouseY;
+            double percentXChange = pixelXChange/(gameValues.WIDTH_SCALE_1*gameValues.gameScale);
+            double percentYChange = pixelYChange/(gameValues.HEIGHT_SCALE_1*gameValues.gameScale);
+
+            gameValues.percentDisplayOriginX += percentXChange;
+            gameValues.percentDisplayOriginY += percentYChange;
+
+            gameValues.oldMouseX = e.getX();
+            gameValues.oldMouseY = e.getY();
         }
     }
 
